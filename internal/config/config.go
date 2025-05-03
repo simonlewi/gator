@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -16,6 +17,13 @@ type Config struct {
 func (c *Config) SetUser(username string) error {
 	c.CurrentUsername = username
 	return write(*c)
+}
+
+func (c *Config) GetUser() (string, error) {
+	if c.CurrentUsername == "" {
+		return "", fmt.Errorf("no user is currently logged in")
+	}
+	return c.CurrentUsername, nil
 }
 
 func Read() (Config, error) {
