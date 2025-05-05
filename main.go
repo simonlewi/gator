@@ -39,13 +39,15 @@ func main() {
 	cmds := commands{
 		commandMap: make(map[string]func(*state, command) error),
 	}
-	cmds.register("login", HandlerLogin)
-	cmds.register("register", HandlerRegister)
-	cmds.register("reset", HandlerReset)
-	cmds.register("users", HandlerGetUsers)
+	cmds.register("login", loginHandler)
+	cmds.register("register", registerHandler)
+	cmds.register("reset", resetHandler)
+	cmds.register("users", getUsersHandler)
 	cmds.register("agg", aggCommand)
-	cmds.register("addfeed", addFeed)
+	cmds.register("addfeed", addFeedHandler)
 	cmds.register("feeds", getFeeds)
+	cmds.register("follow", followHandler)
+	cmds.register("following", followingHandler)
 
 	if len(os.Args) < 2 {
 		log.Fatal("Usage: cli <command> [args...]")

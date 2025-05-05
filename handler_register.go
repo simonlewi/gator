@@ -11,7 +11,7 @@ import (
 	"github.com/simonlewi/gator/internal/database"
 )
 
-func HandlerRegister(s *state, cmd command) error {
+func registerHandler(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %s <name>", cmd.Name)
 	}
@@ -30,8 +30,8 @@ func HandlerRegister(s *state, cmd command) error {
 
 	createUser, err := s.db.CreateUser(ctx, database.CreateUserParams{
 		ID:        uuid.New(),
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
 		Name:      cmd.Args[0],
 	})
 	if err != nil {

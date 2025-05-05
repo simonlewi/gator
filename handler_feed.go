@@ -7,10 +7,6 @@ import (
 	"html"
 	"io"
 	"net/http"
-	"time"
-
-	"github.com/google/uuid"
-	"github.com/simonlewi/gator/internal/database"
 )
 
 type RSSFeed struct {
@@ -70,41 +66,6 @@ func fetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 
 	return &feed, nil
 
-}
-
-func addFeed(s *state, cmd command) error {
-	if len(cmd.Args) < 2 {
-		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
-	}
-
-	feedName := cmd.Args[0]
-	feedURL := cmd.Args[1]
-
-	username, err := s.cfg.GetUser()
-	if err != nil {
-		return fmt.Errorf("not logged in %v", err)
-	}
-
-	ctx := context.Background()
-	user, err := s.db.GetUser(ctx, username)
-	if err != nil {
-		return fmt.Errorf("error getting user: %v", err)
-	}
-
-	feed, err := s.db.CreateFeed(context.Background(), database.CreateFeedParams{
-		ID:        uuid.New(),
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Name:      feedName,
-		Url:       feedURL,
-		UserID:    user.ID,
-	})
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("Feed added successfully: %s (%s)\n", feed.Name, feed.Url)
-	return nil
 }
 
 func getFeeds(s *state, cmd command) error {

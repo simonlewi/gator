@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func HandlerLogin(s *state, cmd command) error {
+func loginHandler(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("user set to: %s <name>", cmd.Name)
 	}
