@@ -9,7 +9,7 @@ import (
 	"github.com/simonlewi/gator/internal/database"
 )
 
-func addFeedHandler(s *state, cmd command) error {
+func addFeedHandler(s *state, cmd command, user database.User) error {
 	// Existing feed creation code to validate arguments and get name/url
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
@@ -27,11 +27,11 @@ func addFeedHandler(s *state, cmd command) error {
 		Url:       feedURL,
 	}
 
-	// Get current user
+	/* Get current user
 	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUsername)
 	if err != nil {
 		return fmt.Errorf("error getting current user: %w", err)
-	}
+	}*/
 
 	// Set the feed's creator
 	feedParams.UserID = user.ID
