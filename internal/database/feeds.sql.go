@@ -267,3 +267,30 @@ func (q *Queries) GetFeedsWithUsers(ctx context.Context) ([]GetFeedsWithUsersRow
 	}
 	return items, nil
 }
+
+const unfollowFeed = `-- name: UnfollowFeed :one
+DELETE FROM feed_follows
+USING feeds
+WHERE feed_follows.feed_id = feeds.id
+AND feeds.url = $1
+AND feed_follows.user_id = $2
+RETURNING feed_follows.id, feed_follows.created_at, feed_follows.updated_at, feed_follows.feed_id, feed_follows.user_id
+`
+
+type UnfollowFeedParams struct {
+	Url    string
+	UserID uuid.UUID
+}
+
+func (q *Queries) UnfollowFeed(ctx context.Context, arg UnfollowFeedParams) (FeedFollow, error) {
+	row := q.db.QueryRowContext(ctx, unfollowFeed, arg.Url, arg.UserID)
+	var i FeedFollow
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.FeedID,
+		&i.UserID,
+	)
+	return i, err
+}
