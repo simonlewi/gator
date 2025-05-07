@@ -17,7 +17,7 @@ func aggCommand(s *state, cmd command) error {
 		return fmt.Errorf("invalid duration: %w", err)
 	}
 
-	fmt.Printf("Collectiong feeds every %s\n", timeBetweenRequests)
+	fmt.Printf("Collecting feeds every %s\n", timeBetweenRequests)
 
 	// Start the ticker and run the scrape feeds function in a loop
 	ticker := time.NewTicker(timeBetweenRequests)
