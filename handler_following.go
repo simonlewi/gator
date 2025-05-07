@@ -8,12 +8,6 @@ import (
 )
 
 func followingHandler(s *state, cmd command, user database.User) error {
-	/* Get current user
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUsername)
-	if err != nil {
-		return fmt.Errorf("error getting current user: %w", err)
-	} */
-
 	feedFollows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("error getting feed follows: %w", err)

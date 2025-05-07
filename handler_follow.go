@@ -15,11 +15,6 @@ func followHandler(s *state, cmd command, user database.User) error {
 	}
 	feedURL := cmd.Args[0]
 
-	/*user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUsername)
-	if err != nil {
-		return fmt.Errorf("error getting current user: %w", err)
-	}*/
-
 	feed, err := s.db.GetFeed(context.Background(), feedURL)
 	if err != nil {
 		return fmt.Errorf("error getting feed: %w", err)

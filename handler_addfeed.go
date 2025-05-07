@@ -27,12 +27,6 @@ func addFeedHandler(s *state, cmd command, user database.User) error {
 		Url:       feedURL,
 	}
 
-	/* Get current user
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUsername)
-	if err != nil {
-		return fmt.Errorf("error getting current user: %w", err)
-	}*/
-
 	// Set the feed's creator
 	feedParams.UserID = user.ID
 
