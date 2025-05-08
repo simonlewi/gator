@@ -43,12 +43,13 @@ func main() {
 	cmds.register("register", registerHandler)
 	cmds.register("reset", resetHandler)
 	cmds.register("users", getUsersHandler)
-	cmds.register("agg", aggCommand)
+	cmds.register("agg", aggCommand) // This will start the aggregation loop, use Ctrl + C to break
 	cmds.register("addfeed", middlewareLoggedIn(addFeedHandler))
 	cmds.register("feeds", getFeeds)
 	cmds.register("follow", middlewareLoggedIn(followHandler))
 	cmds.register("following", middlewareLoggedIn(followingHandler))
 	cmds.register("unfollow", middlewareLoggedIn(unfollowHandler))
+	cmds.register("browse", middlewareLoggedIn(browseHandler))
 
 	if len(os.Args) < 2 {
 		log.Fatal("Usage: cli <command> [args...]")

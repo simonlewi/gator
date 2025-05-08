@@ -6,7 +6,6 @@ import (
 )
 
 func aggCommand(s *state, cmd command) error {
-	// Check that we have exactly one argument
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: agg <time_between_reqs>")
 	}
@@ -22,11 +21,10 @@ func aggCommand(s *state, cmd command) error {
 	// Start the ticker and run the scrape feeds function in a loop
 	ticker := time.NewTicker(timeBetweenRequests)
 	for ; ; <-ticker.C {
-		// Pass the original command through
 		err := scrapeFeedHandler(s, cmd)
 		if err != nil {
 			fmt.Printf("Error scraping feeds: %v\n", err)
-			// Continue despite errors - don't break the loop
+			// Loop will continue despite errors
 		}
 	}
 
