@@ -17,7 +17,23 @@ func followHandler(s *state, cmd command, user database.User) error {
 
 	feed, err := s.db.GetFeed(context.Background(), feedURL)
 	if err != nil {
-		return fmt.Errorf("error getting feed: %w", err)
+		rssFeed, err := fetchFeed(context.Background(), feedURL)
+		if err != nil {
+			return fmt.Errorf("error fetching feed content from %s: %w", feedURL, err)
+		}
+
+		feedParams := database.CreateFeedParams{
+			ID:        uuid.New(),
+			CreatedAt: time.Now().UTC(),
+			UpdatedAt: time.Now().UTC(),
+			Name:      rssFeed.Channel.Title,
+			Url:       feedURL,
+			UserID:    user.ID,
+		}
+		feed, err = s.db.CreateFeed(context.Background(), feedParams)
+		if err != nil {
+			return fmt.Errorf("error creating feed: %w", err)
+		}
 	}
 
 	params := database.CreateFeedFollowParams{
